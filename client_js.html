@@ -2,28 +2,20 @@
 <html lang="en">
   <head>
     <script src="./node_modules/nexmo-client/dist/nexmoClient.js"></script>
-    <style>
-      input,
-      button {
-        font-size: 1rem;
-      }
-      #hangup {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Call Phone from App</h1>
+    <h1>Gate Control App</h1>
     <label for="phone-number">Your Phone Number:</label>
     <input
       type="text"
       name="phone-number"
-      value=""
+      value="19174146014"
       placeholder="i.e. 14155550100"
       id="phone-number"
       size="30"
     />
-    <button type="button" id="call">Call</button>
+    <button id="call">Unlock Gate</button>
     <button type="button" id="hangup">Hang Up</button>
     <div id="status"></div>
     <script>
