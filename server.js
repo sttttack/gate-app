@@ -5,6 +5,9 @@ const vonageNumber = "16084030204";
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
+
+app.use(cors());
 app.use(express.json());
 
 app.get("/voice/answer", (req, res) => {
