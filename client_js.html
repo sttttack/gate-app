@@ -32,9 +32,7 @@
             event.preventDefault();
             let destination = document.getElementById("phone-number").value;
             if (destination !== "") {
-              app.callServer(
-                "https://gate-opener-028o.onrender.com/" + destination
-              );
+              app.callServer(destination);
             } else {
               statusElement.innerText = "Please enter your phone number.";
             }

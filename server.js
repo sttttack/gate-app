@@ -34,7 +34,7 @@ app.all("/voice/event", (req, res) => {
   res.sendStatus(200);
 });
 
-if (subdomain == "SUBDOMAIN") {
+if (subdomain == "https://gate-opener-028o.onrender.com/voice/answer") {
   console.log("\n\t🚨🚨🚨 Please change the SUBDOMAIN value");
   return false;
 }
