@@ -3,21 +3,29 @@
   <head>
     <script src="./node_modules/nexmo-client/dist/nexmoClient.js"></script>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>Gate Control App</h1>
-    <label for="phone-number">Your Phone Number:</label>
-    <input
-      type="text"
-      name="phone-number"
-      value="19174146014"
-      placeholder="i.e. 14155550100"
-      id="phone-number"
-      size="30"
-    />
-    <button id="call">Unlock Gate</button>
-    <button type="button" id="hangup">Hang Up</button>
-    <div id="status"></div>
+    <h1>Enter code to unlock</h1>
+    <input type="password" id="pinInput" placeholder="Enter PIN" />
+    <button id="call" disabled>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 0 448 512"
+      >
+        <path
+          d="M144 144c0-44.2 35.8-80 80-80c31.9 0 59.4 18.6 72.3 45.7c7.6 16 26.7 22.8 42.6 15.2s22.8-26.7 15.2-42.6C331 33.7 281.5 0 224 0C144.5 0 80 64.5 80 144v48H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V256c0-35.3-28.7-64-64-64H144V144z"
+        />
+      </svg>
+      Unlock Gate
+    </button>
+
     <script>
       const USER_JWT =
         "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDAwNTgyMjMsImp0aSI6Ijk0YzA3OTAwLTgzYzItMTFlZS04ZjY0LWRmNjgwZTJkMmFhYiIsImFwcGxpY2F0aW9uX2lkIjoiNzg2OTA1NzgtZjRkOC00YjFiLTk0NzYtZjI2YjdmMTA2ODg1Iiwic3ViIjoiUGFwdW5hIiwiZXhwIjoxNzAwMDU4MjQ1MzU5LCJhY2wiOnsicGF0aHMiOnsiLyovdXNlcnMvKioiOnt9LCIvKi9jb252ZXJzYXRpb25zLyoqIjp7fSwiLyovc2Vzc2lvbnMvKioiOnt9LCIvKi9kZXZpY2VzLyoqIjp7fSwiLyovaW1hZ2UvKioiOnt9LCIvKi9tZWRpYS8qKiI6e30sIi8qL2FwcGxpY2F0aW9ucy8qKiI6e30sIi8qL3B1c2gvKioiOnt9LCIvKi9rbm9ja2luZy8qKiI6e30sIi8qL2xlZ3MvKioiOnt9fX19.Gp_G4ucE-MdDvGVashDuu5JmkeJIHUor8sRorEQiMw4nq33JlsWfJE9IqDLs7Xa0eSgrVqXVaba95Lv33BrZd1hiQJxejeAxU4vEgvvP2u5KJiRplapMtTDIL8yEwww7c5RJvRM0s035DYqYmLTnQDYWrINyMSOYv22EsNbO_aoSE9ahpz-1XeK16WJ8Yr2npWgljZEBIBvQs5YovHOy6X10pUOZdkzo0ry_HM1sD1_QgzKbDxYi0pkXKCx9ji2k_oH-g0B3DZbftYF2zOHgLVSqEz4Te1y0DC6LevH9h4-0td5JS1-x74h0uQbjFEIx6kGp-AQViHn5xBMT9fInjQ";
@@ -25,33 +33,32 @@
       const callButton = document.getElementById("call");
       const hangupButton = document.getElementById("hangup");
       const statusElement = document.getElementById("status");
+      const pinInput = document.getElementById("pinInput");
+
+      // Define your PIN here
+      const correctPin = "1234";
+
+      pinInput.addEventListener("input", () => {
+        // Enable or disable the "Unlock Gate" button based on PIN match
+        callButton.disabled = pinInput.value !== correctPin;
+      });
+
       new NexmoClient({ debug: true })
         .createSession(USER_JWT)
         .then((app) => {
           callButton.addEventListener("click", (event) => {
             event.preventDefault();
-            let destination = document.getElementById("phone-number").value;
+            let destination = "19174146014";
             if (destination !== "") {
               app.callServer(destination);
             } else {
-              statusElement.innerText = "Please enter your phone number.";
+              statusElement.innerText = "";
             }
           });
           app.on("member:call", (member, call) => {
             hangupButton.addEventListener("click", () => {
               call.hangUp();
             });
-          });
-          app.on("call:status:changed", (call) => {
-            statusElement.innerText = `Call status: ${call.status}`;
-            if (call.status === call.CALL_STATUS.STARTED) {
-              callButton.style.display = "none";
-              hangupButton.style.display = "inline";
-            }
-            if (call.status === call.CALL_STATUS.COMPLETED) {
-              callButton.style.display = "inline";
-              hangupButton.style.display = "none";
-            }
           });
         })
         .catch(console.error);

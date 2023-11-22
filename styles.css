@@ -1,38 +1,59 @@
-body {
-  font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
   margin: 0;
+}
+
+body {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  height: 100vh;
-}
-
-.container {
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins";
+  background-color: #1f2225;
   text-align: center;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 375px;
+  margin: 15% auto;
+  border-radius: 10px;
 }
 
-.form-group {
+h1 {
+  color: #fff;
+  font-size: 28px;
   margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  width: 194px;
+  height: 50px;
+  text-align: center;
+  font-size: 30px;
 }
 
-button:disabled {
-  background-color: #ccc;
+#call {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  font-family: "Poppins";
+  font-size: 18px;
+  margin: 15px 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+#call {
+  background-color: #654caf;
+  color: white;
+}
+
+#call:disabled {
+  background-color: #ddd;
+  color: #555;
   cursor: not-allowed;
 }
